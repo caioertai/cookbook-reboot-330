@@ -6,13 +6,23 @@
 class Recipe
   attr_reader :name, :description
 
-  # Remember that attr_reader is a shortcut for the following kind of method
-  # def name
-  #   @name
-  # end
+  def initialize(params = {})
+    @name        = params[:name]
+    @description = params[:description]
+    @done        = params[:done] || false
+  end
 
-  def initialize(name, description)
-    @name        = name
-    @description = description
+  def done?
+    @done
+  end
+
+  def mark_as_done!
+    @done = true
+  end
+
+  # instance method
+  def to_a
+    # self => instance
+    [name, description, done?]
   end
 end

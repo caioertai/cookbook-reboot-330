@@ -10,6 +10,7 @@ class Cookbook
     load_csv
   end
 
+
   def add_recipe(recipe)
     @recipes << recipe
 
@@ -19,6 +20,13 @@ class Cookbook
 
   def all
     @recipes
+  end
+
+  def mark_recipe_as_done(index)
+    recipe_to_mark = @recipes[index]
+    recipe_to_mark.mark_as_done!
+
+    update_csv
   end
 
   def remove_recipe(recipe_index)
@@ -32,10 +40,10 @@ class Cookbook
 
   def load_csv
     # Update @recipes (memory) with recipes.csv file
-    CSV.foreach(@csv_file_path) do |row|
-      name        = row[0]
-      description = row[1]
-      recipe      = Recipe.new(name, description)
+    csv_options = { headers: :first_row, header_converters: :symbol }
+    CSV.foreach(@csv_file_path, csv_options) do |row|
+      row[:done] = row[:done] == "true"
+      recipe = Recipe.new(row)
       @recipes << recipe
     end
   end
@@ -43,8 +51,9 @@ class Cookbook
   def update_csv
     # Update recipes.csv with the current state of @recipes (memory)
     CSV.open(@csv_file_path, "wb") do |csv_file|
+      csv_file << ["name", "description", "done"]
       @recipes.each do |recipe|
-        csv_file << [recipe.name, recipe.description]
+        csv_file << recipe.to_a
       end
     end
   end

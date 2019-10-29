@@ -2,13 +2,8 @@
 # The interface between the users and your application
 # Responsible for output and input (puts and gets for now) of information
 class RecipesView
-  def ask_for_name
-    puts "What's the recipe name?"
-    gets.chomp
-  end
-
-  def ask_for_description
-    puts "What's the recipe description?"
+  def ask_for(something)
+    puts "What's the recipe #{something}?"
     gets.chomp
   end
 
@@ -19,7 +14,8 @@ class RecipesView
 
   def display_recipes(recipes)
     recipes.each_with_index do |recipe, index|
-      puts "#{index + 1}. #{recipe.name} - #{recipe.description}"
+      x = recipe.done? ? "[X]" : "[ ]"
+      puts "#{index + 1}. #{x} #{recipe.name} - #{recipe.description}"
     end
   end
 end
