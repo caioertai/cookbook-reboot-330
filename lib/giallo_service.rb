@@ -2,6 +2,9 @@ require "open-uri"
 require "nokogiri"
 require_relative "recipe"
 
+# Service object for scraping the giallozafferano website for recipes
+# Read more about service objects here:
+# http://brewhouse.io/blog/2014/04/30/gourmet-service-objects.html
 class GialloService
   def initialize(keyword)
     @keyword = keyword

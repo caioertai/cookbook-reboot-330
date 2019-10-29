@@ -28,7 +28,7 @@ class Controller
   def import
     # Ask the view for a keyword
     keyword = @view.ask_for("ingredient")
-    # Call the Giallo service to get the instances from the web
+    # Call the Giallo service to get the recipe instances from the web
     searched_recipes = GialloService.new(keyword).call
     # Ask the view to display the searched recipes
     @view.display_recipes(searched_recipes)
@@ -57,6 +57,7 @@ class Controller
     # 2. Ask the view for a desciption
     description = @view.ask_for("description")
     # 3. Initialize the recipe
+    # We updated the next line to use a hash for initialization
     recipe = Recipe.new(name: name, description: description)
     # 4. Add the recipe to the cookbook
     @cookbook.add_recipe(recipe)
